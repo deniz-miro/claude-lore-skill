@@ -135,28 +135,11 @@ If the moment doesn't fit the current era (the project's center of gravity has s
 
 ## When LORE.md doesn't exist yet
 
-Say so directly:
+Bootstrap is paced — don't compress the whole thing into one response. State that there's no LORE yet, name what the chronicle does and why it matters, retrace what's visible (git log, README, CHANGELOG, TODOS, anything the user mentions — ask before crawling user folders, don't auto-search external sources), and surface the gaps only the user can fill. Then offer **two things together**: anchoring questions that lead to a first draft, AND wiring the upkeep rule into the project's `CLAUDE.md` / `AGENTS.md` so the chronicle stays alive after this session ends. Both? One? Skip? Wait for the user to pick before drafting prose.
 
-> There's nothing here yet. I can retrace into the past from what's available — git history, the docs folder, README, CHANGELOG, anything else — and you tell me what you've been doing in the parts I can't see. Together we shape the chronicle. Want to start?
+The rulebook update is the load-bearing piece — without it, the LORE.md you're about to draft goes stale within a week. Read the canonical rule from `references/upkeep-rule.md` (bundled with this skill) and paste it as a new section in the user's instruction file (`CLAUDE.md` or `AGENTS.md`, both if both exist). Show the diff before applying.
 
-If yes, do both passes:
-
-**Retrace from project signal.** Read what's accessible:
-- `git log --oneline --reverse` for the arc. Era boundaries hint at where activity clusters or shifts.
-- `docs/`, `README.md`, `CHANGELOG.md`, `TODOS.md`, planning docs — for the *what* that's been written down.
-- The user's own folders if they mention them ("my docs folder," "the planning notes," "meeting summaries"). Ask first; don't crawl arbitrary directories.
-- External context only when the user names the source — Granola transcripts, Slack threads, Linear tickets, emails. The user tells you where the human context lives. Don't guess and don't auto-search.
-
-**Listen for the human context.** The signal alone tells you *what* happened, not *why*. Ask:
-- "Walk me through the last few months — what were the moments that mattered? Decisions, conversations, shifts in direction?"
-- "Who's been involved? What's been blocking?"
-- "If a future reader opened this project cold, what would they need to understand to make sense of where it is now?"
-
-**Build it up era by era.** Don't produce a wall of text in one shot. Propose pre-history + Era 1 first, show the diff, get the user to react and refine. Then Era 2. Then Era 3. The user does most of the talking; you shape the prose into the chronicler voice.
-
-When the first draft is in, also offer to scaffold the LORE.md footer ("How to add an entry") and the upkeep rule for the user's CLAUDE.md / AGENTS.md so the chronicle stays alive on every change-set landing on `main` (PR merge, direct push, or commit-and-push). The upkeep rule shape:
-
-> 5th doc-sync check: **LORE.md** — does this change-set represent a moment worth chronicling? A decision, a tradeoff, a conversation, a shift in how we see the problem. If yes, add a date-headed entry under the current era following the entry shape. If no, say "No LORE entry needed" by name. Silence is not a pass.
+When the user is ready to draft, ask a small handful of foundational questions — what is this project and when did it really start, who's been involved, what's the arc so far in 2–3 phases — then build pre-history + Era 1 from the answers + the retrace. Show the diff. Apply on approval. Era by era from there, with another small batch of questions per era. The user does most of the talking; you shape the prose. Don't produce a wall of text in one shot.
 
 ## Boundaries
 

@@ -10,7 +10,7 @@ CHANGELOG tells you what shipped. CLAUDE.md tells you how the code works. TODOS 
 
 `LORE.md` is where the why lives. This repo gives you two things to keep it alive:
 
-1. **A rulebook addition** ([`LORE-RULE.md`](LORE-RULE.md)) — paste it into your `CLAUDE.md` or `AGENTS.md` and your agent will run a LORE check on every change-set landing on `main`.
+1. **A rulebook addition** ([`lore/references/upkeep-rule.md`](lore/references/upkeep-rule.md)) — paste it into your `CLAUDE.md` or `AGENTS.md` and your agent will run a LORE check on every change-set landing on `main`.
 2. **A chronicler skill** (`/lore`) — invoked manually when you want to read or enrich the chronicle, or invoked proactively by the rulebook at substantive moments (version bumps, multi-module changes, long-running PRs landing) to ask one grounded journalist-question about what was behind the change.
 
 The two work together: the rule keeps the chronicle fresh; the skill makes it richer.
@@ -28,7 +28,7 @@ The skill is now available as `/lore` in any Claude Code session.
 
 ### 2. The rule
 
-Open [`LORE-RULE.md`](LORE-RULE.md) and paste its contents into your project's `CLAUDE.md` or `AGENTS.md`. From the next change-set forward, your agent will run the LORE check at the right moments.
+Open [`lore/references/upkeep-rule.md`](lore/references/upkeep-rule.md) and paste its contents into your project's `CLAUDE.md` or `AGENTS.md`. From the next change-set forward, your agent will run the LORE check at the right moments. (When you invoke `/lore` on a project that doesn't have a chronicle yet, the skill will offer to wire this rule into your instruction file as part of bootstrap — no manual paste needed.)
 
 ## How it works in practice
 
@@ -65,11 +65,12 @@ The chronicle is anchored in real PRs, docs, and conversations. Voice: chronicle
 
 ```
 claude-lore-skill/
-├── README.md           ← This file
-├── LORE-RULE.md        ← Paste into your CLAUDE.md / AGENTS.md
-├── LICENSE             ← MIT
+├── README.md                       ← This file
+├── LICENSE                         ← MIT
 └── lore/
-    └── SKILL.md        ← The chronicler skill
+    ├── SKILL.md                    ← The chronicler skill
+    └── references/
+        └── upkeep-rule.md          ← The rule to paste into your CLAUDE.md / AGENTS.md
 ```
 
 ## Heads-up: handle collisions
