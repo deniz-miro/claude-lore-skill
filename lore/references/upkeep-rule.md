@@ -59,7 +59,29 @@ For each change-set, ask: **does this represent a moment worth chronicling?** A 
 - **If yes:** add a date-headed entry under the current era following the entry shape above.
 - **If no:** say "**No LORE entry needed**" by name. Silence is not a pass — explicit absence is the discipline that prevents the file from going stale.
 
-**Granularity calibrates retroactively.** Write entries at the granularity that fits the moment — you can't always tell which moments will become part of a larger arc. The `/lore` skill scans for over-clustered topics when invoked and will offer to roll them up under one umbrella entry, preserving the chronological detail as a compact bullet list. The bar is long-term human readability at the right altitude.
+### Cluster check — auto-consolidation in the same change-set
+
+After deciding "entry needed" (and drafting the entry), run one more pass: **does this entry push a cluster of related entries over the threshold?**
+
+Look across the era the new entry sits in. A cluster = same era + topic kinship (recurring person, recurring PR series, numbered title prefix like "Stas r4", "Stas r5"…, or shared theme phrase) + tight chronology. The threshold is a judgment call:
+
+- **3+ trivial or near-duplicate entries on the same topic** → trip.
+- **5+ substantive entries on one arc** → trip.
+- **Many entries each capturing a genuinely distinct moment** → don't trip; err toward the auto-consolidation only when bundling clearly improves readability without losing meaningful nuance.
+
+**If tripped: auto-consolidate. No permission prompt.** This is doc-sync, same shape as updating CHANGELOG or marking TODOs done — not a conversation. The PR diff (or the commit, for direct-push) is the review surface. The chronicler:
+
+1. Drafts an umbrella entry under the cluster's date span (e.g. `### 2026-05-04 → 2026-05-12 — Title`), using the standard quartet at campaign altitude.
+2. Replaces the original entries with the umbrella + a `**Rounds (chronological detail).**` (or `**Milestones.**`) bullet list — one line per subsumed entry, `YYYY-MM-DD — [original title]: [one-sentence essence]`. **Preserve every original date and essence** in the bullet list.
+3. **Names what it did in the doc-sync output**, explicitly:
+
+   > *"LORE.md updated: new entry for v0.2.15, auto-consolidated 5 entries on the Stas campaign into umbrella at Era 6 (originals preserved as bullet list)."*
+
+If the consolidation lands wrong, recovery is the same as for any other doc-sync miss: revert the commit (or follow-up PR) before merge. The original entries' essence is preserved in the bullet list either way.
+
+**Once consolidated, don't re-consolidate.** Future entries on the same topic in the same era append to the umbrella's bullet list and update the prose if the new entries shift the through-line — don't create a sibling umbrella.
+
+**Granularity calibrates retroactively.** Write each entry at the granularity that fits the moment — you can't always tell which moments will become part of a larger arc. The cluster check catches the moment a topic outgrows per-entry detail and rolls it up automatically; the `/lore` skill also offers retroactive consolidation when invoked manually, for any clusters that slipped through. The bar is long-term human readability at the right altitude.
 
 ---
 
@@ -85,7 +107,14 @@ If yes → invoke `/lore` with the change-set context. The chronicler will ask o
 
 If skip → write a baseline entry (or "No LORE entry needed" by name) and continue.
 
-**Do NOT trigger the prompt on patches, single-file fixes, doc-only commits, or anything routine.** If users get prompted too often they will disable the rule — and the rule is the load-bearing piece. Reserve the proactive invocation for moments genuinely worth a journalist's attention.
+**When a substantive change-set also trips the cluster check**, reframe the 30-second prompt around the campaign arc rather than the single new entry. The auto-consolidation runs regardless of whether the user opts into the question — but the user-supplied lesson, if given, lands in the umbrella's "Why it mattered" instead of in a per-PR entry:
+
+> *"This PR makes the 5th entry on [topic] in [Era N] — the chronicler is consolidating these into one umbrella as part of this change-set. Want to take 30s to tell me the through-line lesson across all five? It'll land in the umbrella's 'Why it mattered.'"*
+>
+> [1] Yes — ask me  
+> [2] Skip; distill from existing entries
+
+**Do NOT trigger the prompt on patches, single-file fixes, doc-only commits, or anything routine.** If users get prompted too often they will disable the rule — and the rule is the load-bearing piece. Reserve the proactive invocation for moments genuinely worth a journalist's attention. (The cluster check runs on every change-set regardless of substantive-ness, but it auto-applies silently — no prompt overhead.)
 
 ---
 
@@ -93,8 +122,8 @@ If skip → write a baseline entry (or "No LORE entry needed" by name) and conti
 
 | Path | Trigger | Behavior |
 |------|---------|----------|
-| **Routine change-set** | PR / push / commit on `main` | Run the LORE check. Entry or "No LORE entry needed" by name. No skill invocation. |
-| **Substantive change-set** | Minor/major bump, multi-module change, long PR landing | Surface the 30-second prompt. If yes → invoke `/lore` for one grounded question + weave. If skip → baseline entry or explicit pass. |
-| **User initiates** | User types `/lore` | Conversational chronicle Q&A. The chronicler reads LORE, summarizes, takes the user's thread, probes gaps as you go. |
+| **Routine change-set** | PR / push / commit on `main` | Run the LORE check. Entry or "No LORE entry needed" by name. Then cluster check — if tripped, auto-consolidate silently and name it in the doc-sync output. No skill invocation. |
+| **Substantive change-set** | Minor/major bump, multi-module change, long PR landing | Run the LORE check + cluster check (auto-consolidate silently if tripped). Surface the 30-second prompt — reframed around the campaign arc if a consolidation just happened. If yes → invoke `/lore` for one grounded question + weave. If skip → baseline entry or explicit pass. |
+| **User initiates** | User types `/lore` | Conversational chronicle Q&A. The chronicler reads LORE, summarizes, takes the user's thread, probes gaps as you go. Also offers consolidation for any clusters that slipped through — diff first, applies on approval. |
 
-The rule fires on every change-set. The skill is invoked occasionally — by the rule at thresholds, or by the user when they want to talk.
+The rule fires on every change-set. The cluster check auto-applies silently. The skill is invoked occasionally — by the rule at substantive moments for the 30-second journalist-Q, or by the user when they want to talk.

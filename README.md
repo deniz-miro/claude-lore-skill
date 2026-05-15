@@ -44,9 +44,12 @@ As you ship code, the agent runs the LORE check on each change-set landing on `m
 
 The chronicle is meant to stay readable at the right altitude. In the moment of writing, you can't tell which entries will pile up; what feels like a singular moment may turn out to be one of many — a security review campaign that ends up spanning 17 rounds, a design overhaul that takes a weekend and a half, three near-identical doc-sync entries in a week.
 
-When you next invoke `/lore`, the chronicler scans the whole chronicle (all eras, not just the current one) for clusters and offers to roll the most over-clustered one into a single umbrella entry. The umbrella keeps the standard quartet — *what happened / why it mattered / what it cost or opened / reference* — and preserves every original entry's date and essence as a compact `Rounds (chronological detail)` bullet list, so you don't lose searchability or context.
+The chronicler catches this at two moments, with different postures:
 
-The offer is a one-liner. You can decline, or ask to see the other clusters. The chronicler never auto-rewrites — every consolidation shows a diff first.
+- **At each PR (upkeep flow, silent).** When the agent writes a new LORE entry as part of pre-merge doc-sync, it also runs a cluster check on the era the entry sits in. If the new entry pushes a cluster of related entries past the threshold (3+ trivial or 5+ substantive entries on the same topic), the chronicler **auto-consolidates** the cluster into one umbrella entry in the same change-set — no permission prompt, same shape as updating CHANGELOG or marking TODOs done. The umbrella keeps the standard quartet — *what happened / why it mattered / what it cost or opened / reference* — and preserves every original entry's date and essence as a compact `Rounds (chronological detail)` bullet list, so you don't lose searchability or context. The agent names what was done in the doc-sync output and commit message; the PR diff is the review surface. This is the path that catches bloat the moment it forms.
+- **At `/lore` (conversational, asks first).** When you invoke the chronicler manually, it sweeps the whole chronicle for any clusters that slipped through and **offers** consolidation as the optional second beat of the opening. Diff first, applies on approval — you're in chronicle-mode, having a conversation; asking is the natural rhythm.
+
+Once a cluster is consolidated into an umbrella, future entries on the same topic in the same era append to the umbrella's bullet list. No sibling umbrellas; no re-consolidation churn.
 
 ### When you want to read the chronicle — type `/lore`
 

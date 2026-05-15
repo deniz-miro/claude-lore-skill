@@ -99,7 +99,14 @@ When the user gives you new color in response to a gap-question, your next move 
 
 ## Altitude check — retroactive consolidation
 
-LORE.md is meant to stay human-readable at the right altitude. In the moment of writing, you can't tell which entries will become a 17-entry pile-up; what one round of work felt singular often turns out to be the third of fifteen. The job of the chronicler is to notice — retroactively — when many entries belong under one umbrella, and offer to roll them up.
+LORE.md is meant to stay human-readable at the right altitude. In the moment of writing, you can't tell which entries will become a 17-entry pile-up; what one round of work felt singular often turns out to be the third of fifteen. The job of the chronicler is to notice — retroactively — when many entries belong under one umbrella, and roll them up.
+
+**Two triggers, two postures.** The altitude check fires from two places, and the chronicler's posture differs in each:
+
+- **User-initiated `/lore`** (conversational, calm visit). The chronicler scans the whole chronicle, finds clusters, and **offers** consolidation as the optional second beat of the opening. Shows the diff, applies on approval. You came on purpose; asking is the natural rhythm.
+- **Upkeep rule at a change-set boundary** (silent doc-sync mode). When writing a new entry trips a cluster threshold, the chronicler **auto-consolidates** without a permission prompt — same shape as writing the CHANGELOG entry or marking TODOs done. The PR diff (or the commit, for direct-push flows) is the review surface; the chronicler names what it did in the doc-sync output so the user can scan it at PR review.
+
+This is the path that catches bloat **at the moment it forms** — when a new entry would push a topic past the threshold, the rollup happens in the same change-set rather than waiting for the user to manually run `/lore` cleanup.
 
 **Scan the whole chronicle, not just the current era.** Clusters often only become visible in hindsight, and closed eras can be just as bloated as open ones. Context cost is essentially free — you already read the whole LORE.md at every invocation.
 
@@ -116,15 +123,21 @@ LORE.md is meant to stay human-readable at the right altitude. In the moment of 
 - **2 entries that each carry their own weight** → leave alone.
 - **Many entries on the same topic but each capturing a genuinely distinct moment** → leave alone. Rare but possible; err toward offering and let the user decline.
 
-**The offer.** One line, value-upfront, optional. Same posture as the substantive-change-set 30-second prompt. Pick the most over-clustered case first and surface that. If you've spotted multiple clusters, mention briefly that others exist so the user can ask for them after. Describe your reasoning in one beat so the user can sanity-check the call — *"Era 5 has 3 trivial doc-sync entries within a week; looks like one bundled note would read better."*
+**The offer (at user-initiated `/lore` only).** One line, value-upfront, optional. Same posture as the substantive-change-set 30-second prompt. Pick the most over-clustered case first and surface that. If you've spotted multiple clusters, mention briefly that others exist so the user can ask for them after. Describe your reasoning in one beat so the user can sanity-check the call — *"Era 5 has 3 trivial doc-sync entries within a week; looks like one bundled note would read better."*
 
-**One offer per session.** After the user accepts (and the consolidation lands) or declines, don't keep offering the rest. The user can invoke `/lore` again to address the next cluster, or ask explicitly.
+**One offer per `/lore` session.** After the user accepts (and the consolidation lands) or declines, don't keep offering the rest. They can invoke `/lore` again to address the next cluster, or ask explicitly. This rule applies to the conversational path only — the upkeep path doesn't sweep; it fires once at the moment the threshold trips on a single PR.
+
+**At upkeep time — auto-apply, then name it.** When the chronicler runs the check at a change-set boundary and finds the new entry tripped a cluster threshold, it applies the consolidation directly into the same doc-sync change-set. No prompt. After applying, name what was done explicitly in the doc-sync output so the user can scan it at PR review:
+
+> *"LORE.md updated: new entry for v0.2.15, auto-consolidated 5 entries on the Stas campaign into umbrella at Era 6 (originals preserved as `Rounds (chronological detail)` bullet list)."*
+
+If the consolidation lands wrong, recovery is the same as for any other doc-sync miss: revert the commit (or follow-up PR) before merge. The original entries' essence is preserved in the bullet list either way.
 
 **The consolidation operation.** Draft an umbrella entry under the cluster's date span (e.g. `### 2026-05-04 → 2026-05-12 — Title`). Use the standard quartet (What happened / Why it mattered / What it cost or opened / Reference). At the bottom, add a `**Rounds (chronological detail).**` (or `**Milestones.**` if the cluster isn't review-shaped) bullet list — one line per subsumed entry, `YYYY-MM-DD — [original title]: [one-sentence essence]`. **Preserve every original date and essence** in the bullet list. The lessons in the quartet are distilled, not enumerated.
 
 **Voice rule.** The umbrella reads as one moment, not as a summary-of-many. Don't write "Round 1 did X, Round 2 did Y…" — write the arc. The bullet list handles chronology; the prose handles narrative.
 
-**Show the diff before applying.** Same rule as every other write path. The diff for a consolidation is large; this is fine, the user can scan and approve.
+**Diff discipline depends on the trigger.** At user-initiated `/lore`, show the diff before applying — same rule as every other conversational write path. At upkeep time, the chronicler applies the consolidation directly into the change-set's doc-sync diff; the PR review (or the commit, for direct-push) is the review surface. Either way, what was done is visible — in the conversation, or in the doc-sync output and commit message.
 
 **Never consolidate across eras.** Within a closed era is fine; across two eras is not. Era boundaries mark the project's center-of-gravity shifts and stay intact.
 
@@ -151,6 +164,12 @@ Examples:
 The phrasing should feel like one of the questionnaire prompts that pops up in Claude Code's terminal — short, structured, value-upfront, foot-in-the-door. Not a process check, not a checklist, not "would you like to add an entry."
 
 **Step 4: Listen, then weave.** If they answer, offer to weave it into a LORE entry under the current era. Show the diff. Apply on approval. If they skip, close cleanly: *"All good — let me know if you want to come back to it."* Don't push, don't lecture.
+
+**When the same change-set also trips a cluster threshold.** The upkeep rule's cluster check auto-consolidates regardless of whether the journalist-Q fires (the consolidation doesn't need user input; the prose distills lessons from existing entries). When both fire on the same PR, reframe the journalist-Q around the campaign arc rather than the single new entry:
+
+> *"This PR makes the 5th entry on [topic] in [Era N], and the chronicler is consolidating these into one umbrella as part of this change-set. Want to take 30s to tell me the through-line lesson across all five? It'll land in the umbrella's 'Why it mattered.'"*
+
+If they answer, the lesson weaves into the umbrella's prose. If they skip, the chronicler distills from the existing entries' prose without user input. Either way the consolidation lands.
 
 ## When the user wants to chronicle a new moment
 
