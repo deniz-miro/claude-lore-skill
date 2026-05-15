@@ -59,6 +59,8 @@ For each change-set, ask: **does this represent a moment worth chronicling?** A 
 - **If yes:** add a date-headed entry under the current era following the entry shape above.
 - **If no:** say "**No LORE entry needed**" by name. Silence is not a pass — explicit absence is the discipline that prevents the file from going stale.
 
+**Granularity calibrates retroactively.** Write entries at the granularity that fits the moment — you can't always tell which moments will become part of a larger arc. The `/lore` skill scans for over-clustered topics when invoked and will offer to roll them up under one umbrella entry, preserving the chronological detail as a compact bullet list. The bar is long-term human readability at the right altitude.
+
 ---
 
 ## Proactively invoke `/lore` at substantive change-sets

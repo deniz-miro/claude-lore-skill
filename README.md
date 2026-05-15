@@ -40,6 +40,14 @@ As you ship code, the agent runs the LORE check on each change-set landing on `m
 - For substantive change-sets — version bumps, multi-module changes, long-running PRs landing — the agent surfaces a 30-second prompt: *"This PR was open 12 days and went through 3 review rounds. The chronicler can ask one quick question to make the LORE entry richer. 30 seconds?"* Skip is always fine.
 - If you take the 30 seconds, `/lore` gets invoked with the change-set context, asks one grounded journalist-question, weaves your answer into the entry, shows the diff, applies on approval.
 
+### When clusters accrete — retroactive altitude
+
+The chronicle is meant to stay readable at the right altitude. In the moment of writing, you can't tell which entries will pile up; what feels like a singular moment may turn out to be one of many — a security review campaign that ends up spanning 17 rounds, a design overhaul that takes a weekend and a half, three near-identical doc-sync entries in a week.
+
+When you next invoke `/lore`, the chronicler scans the whole chronicle (all eras, not just the current one) for clusters and offers to roll the most over-clustered one into a single umbrella entry. The umbrella keeps the standard quartet — *what happened / why it mattered / what it cost or opened / reference* — and preserves every original entry's date and essence as a compact `Rounds (chronological detail)` bullet list, so you don't lose searchability or context.
+
+The offer is a one-liner. You can decline, or ask to see the other clusters. The chronicler never auto-rewrites — every consolidation shows a diff first.
+
 ### When you want to read the chronicle — type `/lore`
 
 The chronicler reads `LORE.md`, summarizes where the project is (current era, what's recent, what's ahead, what was learned), and asks what you're curious about. Conversation flows from there:

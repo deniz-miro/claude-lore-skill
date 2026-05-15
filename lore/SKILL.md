@@ -32,6 +32,7 @@ The user has chosen to consult the chronicle. No hijack needed, no promotional e
 - **Short paragraphs, blank lines between.** Legibility matters; a wall of prose is harder to enter than four short beats.
 - **One open question at the end.** Hand them the thread.
 - **No exclamation marks, no "wow" framing, no multi-bullet recaps.** Specifics earn their place in the conversation that follows.
+- **Scan all eras for over-clustered topics.** Look across the whole chronicle, not just the current era. If you find clusters that meet the judgment threshold (see "Altitude check — retroactive consolidation" below — roughly 3+ trivial entries or 5+ substantive entries on the same topic with topic kinship), keep them in mind. You'll offer consolidation as a short second beat of the opening, one at a time, most bloated first.
 
 **Illustrative shape** (one possible version, not the version):
 
@@ -46,6 +47,12 @@ The user has chosen to consult the chronicle. No hijack needed, no promotional e
 > Now what were you curious about?
 
 Vary the phrasing freely — lean into whatever the chronicle's voice already sounds like. The above is one calm shape; another session might open with a single observation that ties recent and ahead together, or with a different question. The point is the *posture*: calm visit, brief catch-up, open invitation.
+
+**Optional second beat — the consolidation offer.** If your scan turned up at least one cluster that qualifies (see "Altitude check" below), append one short line to the opening after the open question. Pick the most over-clustered case and frame it specifically; if you noticed more than one, mention briefly that others exist so the user can ask for them after. Example phrasing:
+
+> *Note: Era 6 has 17 entries on the Stas campaign over 9 days, and I'm noticing a couple of older clusters too. Want to roll up the Stas one first? (y/n / show me the others)*
+
+Never push, never lecture, never offer if no cluster qualifies. If the user declines or after one consolidation is applied, don't surface more offers that session.
 
 ## How to converse — answer paired with probe
 
@@ -90,6 +97,39 @@ When the user gives you new color in response to a gap-question, your next move 
 
 **Show the diff before applying.** Even when the user has just told you what they want. Drafts can land tones the user doesn't want — too literary, too personal, a phrase that reads dramatic out of context. The diff gives them a single moment to redirect before the prose ships.
 
+## Altitude check — retroactive consolidation
+
+LORE.md is meant to stay human-readable at the right altitude. In the moment of writing, you can't tell which entries will become a 17-entry pile-up; what one round of work felt singular often turns out to be the third of fifteen. The job of the chronicler is to notice — retroactively — when many entries belong under one umbrella, and offer to roll them up.
+
+**Scan the whole chronicle, not just the current era.** Clusters often only become visible in hindsight, and closed eras can be just as bloated as open ones. Context cost is essentially free — you already read the whole LORE.md at every invocation.
+
+**What qualifies as a cluster.** Three signals together: same era + topic kinship + tight chronology.
+
+- **Same era** (cluster within era boundaries only — never across eras, since era boundaries are load-bearing for the project's narrative shape).
+- **Topic kinship** — detectable from a recurring person, a recurring PR series, a numbered title prefix ("Stas r4", "Stas r5"…), or a shared theme phrase ("security review," "carousel pass," "design overhaul").
+- **Tight chronology** — a date span that reads as one arc, not separate moments. The exact span scales with how active the project is.
+
+**Threshold is judgment, not a fixed number.** Weigh *importance × repetition*. The honest test: does bundling improve readability more than it loses meaningful nuance?
+
+- **3+ trivial or near-duplicate entries on the same topic** → offer. Low-importance items pile up fast; three small doc-sync entries or three near-identical refactor entries read better as one line each in a bundle.
+- **5+ substantive entries on one arc** → offer. Each entry might be well-written on its own, but the future reader needs the through-line, not the round-by-round.
+- **2 entries that each carry their own weight** → leave alone.
+- **Many entries on the same topic but each capturing a genuinely distinct moment** → leave alone. Rare but possible; err toward offering and let the user decline.
+
+**The offer.** One line, value-upfront, optional. Same posture as the substantive-change-set 30-second prompt. Pick the most over-clustered case first and surface that. If you've spotted multiple clusters, mention briefly that others exist so the user can ask for them after. Describe your reasoning in one beat so the user can sanity-check the call — *"Era 5 has 3 trivial doc-sync entries within a week; looks like one bundled note would read better."*
+
+**One offer per session.** After the user accepts (and the consolidation lands) or declines, don't keep offering the rest. The user can invoke `/lore` again to address the next cluster, or ask explicitly.
+
+**The consolidation operation.** Draft an umbrella entry under the cluster's date span (e.g. `### 2026-05-04 → 2026-05-12 — Title`). Use the standard quartet (What happened / Why it mattered / What it cost or opened / Reference). At the bottom, add a `**Rounds (chronological detail).**` (or `**Milestones.**` if the cluster isn't review-shaped) bullet list — one line per subsumed entry, `YYYY-MM-DD — [original title]: [one-sentence essence]`. **Preserve every original date and essence** in the bullet list. The lessons in the quartet are distilled, not enumerated.
+
+**Voice rule.** The umbrella reads as one moment, not as a summary-of-many. Don't write "Round 1 did X, Round 2 did Y…" — write the arc. The bullet list handles chronology; the prose handles narrative.
+
+**Show the diff before applying.** Same rule as every other write path. The diff for a consolidation is large; this is fine, the user can scan and approve.
+
+**Never consolidate across eras.** Within a closed era is fine; across two eras is not. Era boundaries mark the project's center-of-gravity shifts and stay intact.
+
+**Once consolidated, don't re-consolidate.** If an umbrella entry exists and new entries land on the same topic in the same era, append to the umbrella's bullet list and update the prose if the new entries shift the through-line — don't create a sibling umbrella.
+
 ## When invoked at a change-set threshold (by the upkeep rule)
 
 The upkeep rule fires when the agent doing pre-merge / pre-push doc-sync notices a substantive change-set — a minor or major version bump, a multi-module change, a long-running PR finally landing. **Not** patches, single-file fixes, or routine commits. The user has already said yes to a structured popup asking whether they want the chronicler to ask one question. They've opted in. You have one shot.
@@ -126,6 +166,8 @@ If they say "we just did X, can you add it" or "this should go in LORE" — draf
 ```
 
 Most entries are 4–6 lines. Substantive moments — a real decision, a leadership conversation, an inflection — earn 150–250 words. Refactors and typos earn nothing.
+
+This guidance is per-entry, at the moment of writing. **Granularity calibrates retroactively** — if a topic later turns into a 17-entry pile-up, the altitude check above offers to roll it up. Don't pre-emptively under-document a moment that feels singular at the time.
 
 **Always show the diff before writing. Never auto-apply.** Never invent — chronicle only what the user confirms.
 
